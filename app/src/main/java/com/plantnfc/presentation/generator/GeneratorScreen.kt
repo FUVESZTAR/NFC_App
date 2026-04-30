@@ -1,37 +1,28 @@
 package com.plantnfc.presentation.generator
 
-import android.app.Activity
-import android.nfc.NdefMessage
-import android.nfc.NdefRecord
-import android.nfc.NfcAdapter
-import android.nfc.Tag
-import android.nfc.tech.Ndef
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.expandVertically
 import androidx.compose.animation.shrinkVertically
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
+import androidx.compose.material.icons.outlined.Bolt
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.plantnfc.domain.model.NfcType
 import com.plantnfc.presentation.common.*
+import com.plantnfc.util.GpsPacketCodec
 import com.plantnfc.util.NfcTextCodec
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import java.nio.charset.Charset
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -153,7 +144,7 @@ fun GeneratorScreen(
             ExpandableCard(
                 title = "Actions",
                 subtitle = "Write, save, copy",
-                icon = Icons.Default.BoltOutlined,
+                icon = Icons.Outlined.Bolt,
                 defaultExpanded = true,
             ) {
                 ActionsContent(
@@ -326,7 +317,7 @@ private fun GpsContent(uiState: GeneratorUiState, viewModel: GeneratorViewModel)
         when (uiState.gpsState) {
             GpsState.Idle, is GpsState.Locked -> {
                 Button(
-                    onClick = { /* GpsTracker composable handles this via side-effect */ },
+                    onClick = { viewModel.startGpsTracking() },
                     modifier = Modifier.weight(1f),
                     colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary),
                 ) {

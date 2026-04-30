@@ -115,4 +115,7 @@ dependencies {
     
     // Image loading
     implementation(libs.coil.compose)
+    
+    // Accompanist
+    implementation(libs.accompanist.permissions)
 }

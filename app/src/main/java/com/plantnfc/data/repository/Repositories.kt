@@ -72,12 +72,8 @@ class NfcRecordRepositoryImpl @Inject constructor(
     override suspend fun delete(id: Long) = nfcRecordDao.deleteById(id)
 
     override suspend fun syncToRemote(): Result<Unit> = runCatching {
-        val local = nfcRecordDao.observeAll().let {
-            // Snapshot via suspend
-            nfcRecordDao.getPending().map(NfcRecordEntity::toDomain)
-        }
+        val local = nfcRecordDao.getPending().map(NfcRecordEntity::toDomain)
         val remote = driveDataSource.readRemoteRecords()
-        val remoteMap = remote.associateBy { it.id }
 
         // Merge: local PENDING always wins (local-first strategy)
         val merged = remote.toMutableList()

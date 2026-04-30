@@ -21,22 +21,16 @@ import com.plantnfc.presentation.common.NfcWriteQueue
 import com.plantnfc.presentation.generator.GeneratorScreen
 import com.plantnfc.presentation.nfclist.NfcListScreen
 import com.plantnfc.presentation.reader.ReaderScreen
+import com.plantnfc.presentation.settings.SettingsScreen
 import com.plantnfc.presentation.theme.PlantNfcTheme
 import dagger.hilt.android.AndroidEntryPoint
-
-// ──────────────────────────────────────────────────────────────────────────────
-//  Navigation routes
-// ──────────────────────────────────────────────────────────────────────────────
 
 sealed class Screen(val route: String) {
     data object Generator : Screen("generator")
     data object Reader    : Screen("reader")
     data object NfcList   : Screen("nfc_list")
+    data object Settings  : Screen("settings")
 }
-
-// ──────────────────────────────────────────────────────────────────────────────
-//  MainActivity – NFC dispatch entry point
-// ──────────────────────────────────────────────────────────────────────────────
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -61,7 +55,6 @@ class MainActivity : ComponentActivity() {
 
     override fun onResume() {
         super.onResume()
-        // Enable foreground NFC dispatch so we intercept tags while app is in foreground
         nfcAdapter?.enableReaderMode(
             this,
             { tag: Tag -> runOnUiThread { NfcWriteQueue.handleTag(tag) } },
@@ -81,7 +74,6 @@ class MainActivity : ComponentActivity() {
 
     override fun onNewIntent(intent: Intent) {
         super.onNewIntent(intent)
-        // Handle NFC intents from system (when app is in background)
         val tag = if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.TIRAMISU) {
             intent.getParcelableExtra(NfcAdapter.EXTRA_TAG, Tag::class.java)
         } else {
@@ -91,10 +83,6 @@ class MainActivity : ComponentActivity() {
         tag?.let { NfcWriteQueue.handleTag(it) }
     }
 }
-
-// ──────────────────────────────────────────────────────────────────────────────
-//  Navigation host
-// ──────────────────────────────────────────────────────────────────────────────
 
 @Composable
 private fun AppNavHost(navController: NavHostController) {
@@ -121,5 +109,9 @@ private fun AppNavHost(navController: NavHostController) {
                 onNavigateBack = { navController.popBackStack() },
             )
         }
+        composable(Screen.Settings.route) {
+            SettingsScreen(onNavigateBack = { navController.popBackStack() })
+        }
     }
 }
+

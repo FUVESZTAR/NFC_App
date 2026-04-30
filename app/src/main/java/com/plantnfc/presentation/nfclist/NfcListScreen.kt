@@ -1,8 +1,21 @@
 package com.plantnfc.presentation.nfclist
 
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.*
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.plantnfc.domain.model.NfcRecord
+import com.plantnfc.domain.model.SyncStatus
 import com.plantnfc.domain.repository.NfcRecordRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
@@ -64,23 +77,6 @@ class NfcListViewModel @Inject constructor(
 }
 
 // ── Screen ────────────────────────────────────────────────────────────────────
-
-package com.plantnfc.presentation.nfclist
-
-import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.*
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
-import com.plantnfc.domain.model.NfcRecord
-import com.plantnfc.domain.model.SyncStatus
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
