@@ -201,6 +201,10 @@ class GeneratorViewModel @Inject constructor(
         updatePreview()
     }
 
+    fun startGpsTracking() {
+        _uiState.update { it.copy(gpsState = GpsState.Tracking) }
+    }
+
     fun clearGps() {
         _uiState.update { it.copy(gpsData = null, gpsPacket = null, gpsState = GpsState.Idle) }
         updatePreview()

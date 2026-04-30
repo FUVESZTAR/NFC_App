@@ -5,8 +5,6 @@ import androidx.room.Room
 import com.plantnfc.data.local.PlantNfcDatabase
 import com.plantnfc.data.local.dao.NfcRecordDao
 import com.plantnfc.data.local.dao.PlantDao
-import com.plantnfc.data.remote.api.GoogleDriveDataSource
-import com.plantnfc.data.remote.api.GoogleSheetsDataSource
 import com.plantnfc.data.repository.NfcRecordRepositoryImpl
 import com.plantnfc.data.repository.PlantRepositoryImpl
 import com.plantnfc.domain.repository.NfcRecordRepository
@@ -44,17 +42,4 @@ abstract class RepositoryModule {
 
     @Binds @Singleton
     abstract fun bindNfcRecordRepository(impl: NfcRecordRepositoryImpl): NfcRecordRepository
-}
-
-@Module
-@InstallIn(SingletonComponent::class)
-object RemoteModule {
-
-    @Provides @Singleton
-    fun provideGoogleSheetsDataSource() = GoogleSheetsDataSource()
-
-    @Provides @Singleton
-    fun provideGoogleDriveDataSource(
-        @ApplicationContext ctx: Context
-    ) = GoogleDriveDataSource(ctx)
 }

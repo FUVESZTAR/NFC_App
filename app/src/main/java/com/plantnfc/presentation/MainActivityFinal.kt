@@ -8,18 +8,14 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Edit
-import androidx.compose.material.icons.filled.List
-import androidx.compose.material.icons.filled.Settings
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.plantnfc.presentation.common.NfcWriteQueue
 import com.plantnfc.presentation.generator.GeneratorScreen
@@ -65,7 +61,8 @@ class MainActivity : ComponentActivity() {
             NfcAdapter.FLAG_READER_NFC_A or
             NfcAdapter.FLAG_READER_NFC_B or
             NfcAdapter.FLAG_READER_NFC_F or
-            NfcAdapter.FLAG_READER_NFC_V,
+            NfcAdapter.FLAG_READER_NFC_V or
+            NfcAdapter.FLAG_READER_SKIP_NDEF_CHECK,
             null,
         )
     }
@@ -87,21 +84,17 @@ class MainActivity : ComponentActivity() {
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun AppNavHost(navController: NavHostController) {
-    val currentEntry by navController.currentBackStackEntryAsState()
-    val currentRoute = currentEntry?.destination?.route
-
     NavHost(
         navController = navController,
         startDestination = Screen.Generator.route,
     ) {
         composable(Screen.Generator.route) {
             GeneratorScreen(
-                onNavigateToReader   = { navController.navigate(Screen.Reader.route) },
-                onNavigateToList     = { navController.navigate(Screen.NfcList.route) },
-                onNavigateBack       = { navController.popBackStack() },
+                onNavigateToReader = { navController.navigate(Screen.Reader.route) },
+                onNavigateToList   = { navController.navigate(Screen.NfcList.route) },
+                onNavigateBack     = { navController.popBackStack() },
             )
         }
         composable(Screen.Reader.route) {
