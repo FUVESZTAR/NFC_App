@@ -1,0 +1,26 @@
+# Android
+*.apk
+*.aab
+*.ap_
+*.dex
+
+# Gradle
+.gradle/
+build/
+local.properties
+
+# IntelliJ IDEA / Android Studio
+*.iml
+.idea/
+*.iws
+*.ipr
+
+# Kotlin
+*.class
+
+# Log files
+*.log
+
+# OS
+.DS_Store
+Thumbs.db
